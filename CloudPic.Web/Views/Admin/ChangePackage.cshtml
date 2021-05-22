@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewData["Title"] = ViewBag.User.Name;
+}
+
+
+<form method="post">
+    <input type="hidden" name="userId" value="@ViewBag.User.Id" />
+    <div class="modal" tabindex="-1" role="dialog" id="modal-package">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="mb-0 display-4" style="font-size: 1.62em;">
+                        Select package for @ViewBag.User.Name
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="text-muted pl-2 mb-2">You can switch a package once a day.</div>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-4 pr-0">
+
+                            <label>
+                                <input type="radio" name="packageId" class="card-input-element" value="1" checked="@(ViewBag.LastPackage.PlanId==1)" />
+
+                                <div class="card card-input">
+                                    <div class="card-header">
+                                        <h5 class="mb-0 display-4" style="font-size: 1.2em;">
+                                            FREE
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <i class="far fa-images mr-2"></i>
+                                                5 photos
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-tachometer-alt mr-2"></i>
+                                                10 Mb / day
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-hdd mr-2"></i>
+                                                50 Mb storage
+                                            </li>
+                                        </ul>
+                                        <ul class="list-group mt-2">
+                                            <li class="list-group-item text-center">
+                                                <h5 class="mb-0 display-4" style="font-size: 1.2em;font-weight: 550;">
+                                                    0$ / day
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </label>
+
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 px-0">
+
+                            <label>
+                                <input type="radio" name="packageId" class="card-input-element" value="2" checked="@(ViewBag.LastPackage.PlanId==2)" />
+
+                                <div class="card panel-default card-input">
+                                    <div class="card-header card-body-pro">
+                                        <h5 class="mb-0 display-4" style="font-size: 1.2em;color: #fff;">
+                                            PRO
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <i class="far fa-images mr-2"></i>
+                                                50 photos
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-tachometer-alt mr-2"></i>
+                                                100 Mb / day
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-hdd mr-2"></i>
+                                                500 Mb storage
+                                            </li>
+                                        </ul>
+                                        <ul class="list-group mt-2">
+                                            <li class="list-group-item text-center">
+                                                <h5 class="mb-0 display-4" style="font-size: 1.2em;font-weight: 550;">
+                                                    0.4$ / day
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 pl-0">
+
+                            <label>
+                                <input type="radio" name="packageId" class="card-input-element" value="3" checked="@(ViewBag.LastPackage.PlanId==3)" />
+
+                                <div class="card panel-default card-input">
+                                    <div class="card-header card-body-gold">
+                                        <h5 class="mb-0 display-4" style="font-size: 1.2em;font-weight: 490;">
+                                            GOLD
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <i class="far fa-images mr-2"></i>
+                                                200 photos
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-tachometer-alt mr-2"></i>
+                                                2 Gb / day
+                                            </li>
+                                            <li class="list-group-item">
+                                                <i class="fas fa-hdd mr-2"></i>
+                                                20 Gb storage
+                                            </li>
+                                        </ul>
+                                        <ul class="list-group mt-2">
+                                            <li class="list-group-item text-center">
+                                                <h5 class="mb-0 display-4" style="font-size: 1.2em;font-weight: 550;">
+                                                    1$ / day
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        Change package
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    var modal = document.getElementById("modal-package");
+    modal.style.display = "block";
+</script>
+
+<style>
+    .center-div {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        margin: auto;
+        width: 300px;
+        height: 430px;
+    }
+
+    .card-body-gold {
+        background: #CAC531; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #F3F9A7, #CAC531); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #F3F9A7, #CAC531); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    .card-body-pro {
+        background: #0F2027; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
+    label {
+        width: 100%;
+    }
+
+    .card-input-element {
+        display: none;
+    }
+
+    .card-input {
+        margin: 10px;
+        padding: 00px;
+    }
+
+        .card-input:hover {
+            cursor: pointer;
+        }
+
+    .card-input-element:checked + .card-input {
+        box-shadow: 0 0 2px 1.5px #1b6ec2;
+    }
+</style>

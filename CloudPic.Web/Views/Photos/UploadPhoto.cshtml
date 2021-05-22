@@ -1,0 +1,134 @@
+﻿@model CloudPic.Models.VM.PhotoInsertVM
+
+@{
+    ViewData["Title"] = "Upload photo";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="card w-50" style="margin:auto !important;">
+        <div class="card-header">
+            <h5 class="mb-0 display-4" style="font-size: 1.62em;">
+                Upload photo
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <div class="input-group mb-3">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" asp-for="File" id="input-file" accept="image/*">
+                    <label class="custom-file-label" id="file-chosen" for="inputGroupFile04">Choose file</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <img id="image-preview" class="mb-3" style="display: none;" />
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="date-from-addon">
+                        <i class="fas fa-comment"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="description" placeholder="Description">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="col p-0 pr-1">
+                    <input type="number" class="form-control" id="upload-width" name="width" placeholder="Width">
+                </div>
+                <div class="col p-0 pl-1">
+                    <input type="number" class="form-control" id="upload-height" name="height" placeholder="Height">
+                </div>
+            </div>
+
+            <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="date-from-addon">
+                        <i class="fas fa-hashtag"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="tags" placeholder="Tags (separated by comma)">
+            </div>
+
+            <div>
+                <label class="text-muted mb-0">Format:&nbsp;</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="format" value="png" checked>
+                    <label class="form-check-label" for="format1">
+                        PNG
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="format" value="jpeg">
+                    <label class="form-check-label" for="format2">
+                        JPEG
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="format" value="bmp">
+                    <label class="form-check-label" for="format3">
+                        BMP
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Upload</button>
+        </div>
+
+    </div>
+</form>
+
+<style>
+    #image-preview {
+        max-width: 100%;
+        max-height: 14em;
+        border: 2px solid #5b5b5b;
+        border-radius: 5px;
+        margin: auto;
+    }
+</style>
+
+<script>
+    const actualBtn = document.getElementById('input-file');
+
+    const fileChosen = document.getElementById('file-chosen');
+
+    actualBtn.addEventListener('change', function () {
+
+        let file = this.files[0];
+
+        if (file.type && file.type.indexOf('image') !== -1) {
+
+            // Set input document text to name of the file
+            fileChosen.textContent = file.name;
+
+            // Show image in file preview
+            var output = document.getElementById('image-preview');
+            output.src = URL.createObjectURL(file);
+            output.style.display = "block";
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function () {
+                    document.getElementById('upload-width').value = this.width;
+                    document.getElementById('upload-height').value = this.height;
+                };
+            }
+        }
+        else {
+            // If user selected unsupported format, show error
+            var notyf = new Notyf();
+            notyf.error('Please select a valid image format.');
+        }
+    });
+
+</script>

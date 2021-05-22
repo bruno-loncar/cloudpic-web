@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewData["Title"] = "Administration";
+    var users = ViewBag.AllUsers as IEnumerable<CloudPic.Models.DTO.User>;
+    var logs = ViewBag.AllLogs as IEnumerable<CloudPic.Models.VM.LogDetailsVM>;
+}
+
+
+<partial name="~/Views/Shared/_Shared.cshtml" />
+
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h5 class="display-4 float-left" style="font-size: 1.62em;">System administration</h5>
+    </div>
+
+    <div class="pt-2">
+        <nav style="margin-left: -1px;">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                @*<a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Overview</a>*@
+                <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">User list</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">System log</a>
+            </div>
+        </nav>
+        <div class="p-2">
+            <div class="tab-content" id="nav-tabContent">
+                @*<div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>*@
+                <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <table class="table table-striped table-bordered w-100">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Login provider
+                                </th>
+                                <th>
+                                    Register date
+                                </th>
+                                <th class="text-center" style="width: 11em;">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in users)
+                            {
+                                <tr>
+                                    <td>@user.Email</td>
+                                    <td>@user.Name</td>
+                                    <td>@user.LoginProvider</td>
+                                    <td>@user.RegisterDate.ToString("dd.MM.yyyy")</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-primary btn-sm mr-1" data-toggle="tooltip" data-placement="bottom" href="admin/user/details?id=@user.Id">
+                                            Account overview
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div style="max-height: 70vh;overflow-y: scroll;">
+                        <table class="table table-striped table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                    <th>
+                                        Object
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in logs)
+                                {
+                                    <tr>
+                                        <td>@log.LogDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td><a href="admin/user/details?id=@log.UserId">@log.UserName</a></td>
+                                        <td>@log.LogType</td>
+                                        <td>@log.ObjectId</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

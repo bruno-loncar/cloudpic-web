@@ -1,0 +1,220 @@
+﻿@model List<CloudPic.Models.VM.PhotoHashtagVM>
+@{
+    ViewData["Title"] = "Photos";
+}
+
+<partial name="~/Views/Shared/_Shared.cshtml" />
+
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h5 class="display-4 float-left" style="font-size: 1.62em;">My photos</h5>
+    </div>
+
+    @if (Model.ToList().Count > 0)
+    {
+        <div class="container-grid p-3">
+            @foreach (var item in Model)
+            {
+                <div class="item" style="background-image: url('@item.GetThumbnailUrl()')">
+                    <div class="item-inner">
+
+                        <button class="btn btn-primary mr-2" onclick="openImageModal('@item.GetImageUrl()', '@item.Description')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-warning mr-2"  onclick="editImageModal('@item.GetImageUrl()', '@item.Id', '@item.Description', '@item.Hashtags')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <form asp-action="DeletePhoto" asp-controller="Photos" method="get">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button class="btn btn-danger" type="submit">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mt-3 mx-3">
+            No photos to display.
+        </div>
+    }
+
+
+</div>
+
+<div style="position: relative">
+    <form asp-action="UpdatePhoto" asp-controller="Photos"  method="post">
+        <div class="modal" tabindex="-1" role="dialog" id="edit-modal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit image</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row p-0">
+                            <div class="col">
+                                <div class="edit-modal-image">
+                                    <img id="img02" src="https://cp0fs.blob.core.windows.net/cloudpic/152dd1a3-3656-43c0-8dce-d687f18b5113.png" class="w-100" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <input type="hidden" name="id" value="0" id="edit-id" />
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="date-from-addon">
+                                            <i class="fas fa-comment"></i>
+                                        </span>
+                                    </div>
+                                    <input id="edit-description" type="text" class="form-control" name="description" placeholder="Description">
+                                </div>
+
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="date-from-addon">
+                                            <i class="fas fa-hashtag"></i>
+                                        </span>
+                                    </div>
+                                    <input id="edit-tags" type="text" class="form-control" name="tags" placeholder="Tags (separated by comma)">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">
+                            <i class="fas fa-times mr-2"></i>
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    //var modal = document.getElementById("download-modal");
+    //modal.style.display = "block";
+
+    function editImageModal(imgUrl, id, desc, tags) {
+
+        var modal = document.getElementById("edit-modal");
+
+        var modalImg = document.getElementById("img02");
+        var editId = document.getElementById("edit-id");
+        var editDescription = document.getElementById("edit-description");
+        var editHashtags = document.getElementById("edit-tags");
+
+        modal.style.display = "block";
+        modalImg.src = imgUrl;
+        editId.value = id;
+        editDescription.value = desc;
+        editHashtags.value = tags;
+    }
+
+    function closeEditModal() {
+        var modal = document.getElementById("edit-modal");
+        modal.style.display = "none";
+    }
+
+
+</script>
+
+<style>
+    .modal-backdrop {
+        z-index: -1;
+    }
+
+    .container-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 250px;
+        grid-gap: 1rem;
+    }
+
+    .item {
+        background-color: #1EAAFC;
+        background-image: linear-gradient(130deg, #6C52D9 0%, #1EAAFC 85%, #3EDFD7 100%);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        color: #fff;
+        border-radius: 4px;
+        border: 6px solid #171717;
+        min-height: 250px;
+        height: 250px;
+        max-height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+        .item > .item-inner {
+            opacity: 0;
+            transition: opacity linear 0.25s;
+            width: 100% !important;
+        }
+
+
+        .item:hover > .item-inner {
+            opacity: 1 !important;
+            background-color: rgba(0,0,0,0.45);
+        }
+</style>
+
+
+
+<style>
+    .container-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 150px;
+        grid-gap: 1rem;
+    }
+
+    .item {
+        background-color: #9f9f9f;
+        background-image: linear-gradient(130deg, #9f9f9f 0%, #878787 85%, #9f9f9f 100%);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        color: #fff;
+        border-radius: 4px;
+        border: 3px solid #171717;
+        min-height: 150px;
+        height: 150px;
+        max-height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+        .item > .item-inner {
+            opacity: 0;
+            width: 100%;
+            height: 150px;
+            transition: opacity linear 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+
+        .item:hover > .item-inner {
+            opacity: 1 !important;
+            background-color: rgba(0,0,0,0.45);
+        }
+</style>

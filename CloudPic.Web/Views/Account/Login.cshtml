@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "../Shared/_LayoutPublic.cshtml";
+}
+
+
+
+<div class="center-div">
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 class="mb-0 display-4" style="font-size: 1.62em;">
+                Login
+            </h5>
+        </div>
+
+        <form method="post">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="login-email">Email address</label>
+                    <input type="email" name="email" class="form-control" id="login-email" aria-describedby="email-hint" placeholder="eg. joe.smith@gmail.com" required>
+                    <small id="email-hint" class="form-text text-muted">Email associated with your local account.</small>
+                </div>
+                <div class="form-group mb-0">
+                    <label for="login-password">Password</label>
+                    <input type="password" name="password" class="form-control" id="login-password" placeholder="***********" required>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-key"></i>
+                    Login
+                </button>
+            </div>
+        </form>
+
+    </div>
+    <div class="mt-2 text-center">
+        <div class="mb-3">
+            <a asp-action="Register" asp-controller="Account" role="button">
+                <i class="fas fa-user-plus"></i>
+                Create new account
+            </a>
+        </div>
+        Sign in with
+        <a asp-action="GithubLogin" asp-controller="Account">
+            GitHub
+        </a>
+        /
+        <a asp-action="GoogleLogin" asp-controller="Account">
+            Google
+        </a>
+    </div>
+</div>
+
+<script>
+
+</script>
+
+<style>
+    .center-div {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        margin: auto;
+        width: 300px;
+        height: 350px;
+    }
+</style>
